@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">JetX</string>
+    <string name="login_title">Jet X</string>
+    <string name="hint_username">Usuario o Correo</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="forgot_password">¿Olvidaste tu usuario o contraseña?</string>
+    <string name="new_client">¿Eres nuevo cliente? Regístrate aquí</string>
+    <string name="btn_login">Iniciar Sesión</string>
+
+    <string name="register_title">Registro</string>
+    <string name="register_header">Jet X</string>
+    <string name="register_first_name">Nombres</string>
+    <string name="register_last_name">Apellidos</string>
+    <string name="register_email">Correo electrónico</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_country_code">Código (+503)</string>
+    <string name="register_phone_number">Número de teléfono</string>
+    <string name="register_country">País</string>
+    <string name="register_city">Ciudad</string>
+    <string name="register_address">Dirección</string>
+    <string name="register_passport">Número de pasaporte</string>
+    <string name="register_btn_submit">Crear</string>
+    <string name="register_btn_cancel">Cancelar</string>
+    <string name="register_error_empty_fields">Por favor completa todos los campos obligatorios</string>
+    <string name="default_web_client_id">695958965728-blm5nkelap7tb9nf3cnv88tr7q4moa0o.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
