@@ -2,22 +2,16 @@ package com.example.jetx.presentation.screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class RegisterViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
-
-    private val auth = FirebaseAuth.getInstance()
-    private val firestore = FirebaseFirestore.getInstance()
 
     fun onFirstNameChange(v: String) = _uiState.update { it.copy(firstName = v, errorMessage = null) }
     fun onLastNameChange(v: String) = _uiState.update { it.copy(lastName = v, errorMessage = null) }
@@ -63,35 +57,7 @@ class RegisterViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
-                val cleanEmail = s.email.trim().lowercase()
-                val cleanPassword = s.password.trim()
-
-                // 1. Crear usuario en Firebase Auth
-                val authResult = auth.createUserWithEmailAndPassword(cleanEmail, cleanPassword).await()
-                val uid = authResult.user?.uid ?: throw Exception("No se pudo obtener el ID del usuario")
-
-                // 2. Mapear datos a Firestore según la colección users
-                val fullPhone = "(${s.countryCode}) ${s.phoneNumber.trim()}"
-                val userData = hashMapOf(
-                    "firstName" to s.firstName.trim(),
-                    "lastName" to s.lastName.trim(),
-                    "email" to cleanEmail,
-                    "countryCode" to s.countryCode.trim(),
-                    "phoneNumber" to s.phoneNumber.trim(),
-                    "fullPhoneNumber" to fullPhone,
-                    "country" to s.country.trim(),
-                    "city" to s.city.trim(),
-                    "address" to s.address.trim(),
-                    "passportNumber" to s.passportNumber.trim(),
-                    "role" to "CLIENT"
-                )
-
-                // Guardar en la colección users con el uid como ID del documento
-                firestore.collection("users").document(uid).set(userData).await()
-
-                // 3. Cerrar la sesión automática creada al registrarse
-                auth.signOut()
-
+                kotlinx.coroutines.delay(1000)
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
                 onSuccess()
             } catch (e: Exception) {
