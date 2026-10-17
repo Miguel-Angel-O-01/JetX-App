@@ -17,10 +17,19 @@ class BookingViewModel : ViewModel() {
         Airport("1", "Miami International", "Miami", "USA", "KMIA", 25.7959, -80.2870),
         Airport("2", "Toluca International", "Toluca", "Mexico", "MMTO", 19.3371, -99.5660),
         Airport("3", "Los Angeles International", "Los Angeles", "USA", "KLAX", 33.9416, -118.4085),
-        Airport("4", "JFK International", "New York", "USA", "KJFK", 40.6413, -73.7781)
+        Airport("4", "JFK International", "New York", "USA", "KJFK", 40.6413, -73.7781),
+        Airport("5", "Heathrow", "London", "UK", "EGLL", 51.4700, -0.4543),
+        Airport("6", "Charles de Gaulle", "Paris", "France", "LFPG", 49.0097, 2.5479),
+        Airport("7", "Dubai International", "Dubai", "UAE", "OMDB", 25.2532, 55.3657)
     )
 
-    private val _uiState = MutableStateFlow(BookingUiState(availableAirports = defaultAirports))
+    private val bgFlights = listOf(
+        FlightRoute("bg1", defaultAirports[2], defaultAirports[3], 0.35, isEmptyLeg = true),  // LAX -> JFK (Golden Empty Leg)
+        FlightRoute("bg2", defaultAirports[4], defaultAirports[0], 0.60, isEmptyLeg = false), // LHR -> MIA (Ghost full flight)
+        FlightRoute("bg3", defaultAirports[6], defaultAirports[5], 0.45, isEmptyLeg = true)   // DXB -> CDG (Golden Empty Leg)
+    )
+
+    private val _uiState = MutableStateFlow(BookingUiState(availableAirports = defaultAirports, backgroundFlights = bgFlights))
     val uiState: StateFlow<BookingUiState> = _uiState.asStateFlow()
 
     private var flightJob: Job? = null
@@ -85,10 +94,19 @@ class BookingViewModel : ViewModel() {
                 destLat = airport.lat,
                 destLon = airport.lon,
                 destinationIcao = airport.icaoCode,
-                isSelectorExpanded = false
+                isSelectorExpanded = false,
+                selectedBackgroundFlightId = null // Quitamos el HUD si seleccionamos un vuelo nuevo
             ) 
         }
         startTelemetrySimulation()
+    }
+
+    fun onFlightTapped(flightId: String) {
+        _uiState.update { it.copy(selectedBackgroundFlightId = flightId) }
+    }
+
+    fun dismissFlightHud() {
+        _uiState.update { it.copy(selectedBackgroundFlightId = null) }
     }
 }
 

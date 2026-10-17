@@ -10,6 +10,14 @@ data class Airport(
     val lon: Double
 )
 
+data class FlightRoute(
+    val id: String,
+    val origin: Airport,
+    val dest: Airport,
+    val progress: Double,
+    val isEmptyLeg: Boolean = false
+)
+
 data class BookingUiState(
     // Datos de reserva
     val originIcao: String = "KMIA (Miami)",
@@ -35,9 +43,11 @@ data class BookingUiState(
     val flightMode: String = "CRUISE",
     val isLoading: Boolean = false,
     
-    // UI Selector
+    // UI Selector & Interacción Multivuelo
     val isSelectorExpanded: Boolean = false,
     val availableAirports: List<Airport> = emptyList(),
+    val backgroundFlights: List<FlightRoute> = emptyList(),
+    val selectedBackgroundFlightId: String? = null, // ID del vuelo que tocamos en el mapa
     val selectedOrigin: Airport = Airport("1", "Miami International", "Miami", "USA", "KMIA", 25.7959, -80.2870),
     val selectedDestination: Airport = Airport("2", "Toluca International", "Toluca", "Mexico", "MMTO", 19.3371, -99.5660)
 )

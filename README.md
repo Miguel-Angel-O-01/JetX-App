@@ -26,7 +26,7 @@ Jet X es una aplicación móvil nativa para Android desarrollada en Kotlin y Jet
 * Durante todo el desarollo contamos con la participación de las siguentes personas:   
 * **MIGUEL ANGEL CRUZ OLMEDO**              **27-2723-2025**
 
-* **RICARDO PEDRO ORANTES CUELLAR**     **27-6587-2013**
+* **PEDRO RICARDO ORANTES CUELLAR**     **27-6587-2013**
 * **ADRINA MELISSA ROQUE DE PAZ**              **25-0674-2022**
 * **JESÚS ENRIQUE MARTINEZ JUÁREZ**           **27-0637-2025**
 * **GEOVANNY DANIEL BARRERA HERRERA**        **25-0615-2022**

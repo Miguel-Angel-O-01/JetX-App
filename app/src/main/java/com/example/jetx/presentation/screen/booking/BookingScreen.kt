@@ -103,6 +103,8 @@ fun BookingScreen(
                         currentBearing = uiState.currentBearing,
                         currentAltitudeMetres = uiState.currentAltitudeMetres,
                         outsideTempCelsius = uiState.outsideTempCelsius,
+                        backgroundFlights = uiState.backgroundFlights,
+                        onFlightTapped = { flightId -> viewModel.onFlightTapped(flightId) },
                         modifier = Modifier.fillMaxSize()
                     )
 
@@ -239,6 +241,67 @@ fun BookingScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
+            }
+
+            // ==========================================
+            // HUD DE VUELO DE FONDO (Interactivo)
+            // ==========================================
+            if (uiState.selectedBackgroundFlightId != null) {
+                item {
+                    val tappedFlight = uiState.backgroundFlights.find { it.id == uiState.selectedBackgroundFlightId }
+                    if (tappedFlight != null) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(Color(0xFF1E2430).copy(alpha = 0.95f))
+                                .border(1.dp, if (tappedFlight.isEmptyLeg) Color(0xFFF59E0B) else Color.White.copy(alpha = 0.15f), RoundedCornerShape(20.dp))
+                                .padding(16.dp)
+                        ) {
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = if (tappedFlight.isEmptyLeg) "✨ EMPTY LEG VIP" else "VUELO EN CURSO",
+                                        color = if (tappedFlight.isEmptyLeg) Color(0xFFFBBF24) else Color.Gray,
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = "✕",
+                                        color = Color.White,
+                                        fontSize = 16.sp,
+                                        modifier = Modifier.clickable { viewModel.dismissFlightHud() }
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = "${tappedFlight.origin.icaoCode} ➔ ${tappedFlight.dest.icaoCode}",
+                                    color = Color.White,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = "${tappedFlight.origin.city} to ${tappedFlight.dest.city}",
+                                    color = Color.LightGray,
+                                    fontSize = 13.sp
+                                )
+                                Spacer(modifier = Modifier.height(14.dp))
+                                JetXButton(
+                                    text = if (tappedFlight.isEmptyLeg) "Reservar con 65% OFF" else "Ver detalles del vuelo",
+                                    onClick = { /* Acción para reservar */ },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    variant = if (tappedFlight.isEmptyLeg) JetXButtonVariant.PRIMARY else JetXButtonVariant.SECONDARY
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                }
             }
 
             // ==========================================
