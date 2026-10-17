@@ -21,6 +21,8 @@ fun JetXMap(
     currentBearing: Double = 0.0,
     currentAltitudeMetres: Double = 0.0,
     outsideTempCelsius: Double = 15.0,
+    backgroundFlights: List<com.example.jetx.presentation.screen.booking.FlightRoute> = emptyList(),
+    onFlightTapped: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -39,7 +41,9 @@ fun JetXMap(
                 currentLon = currentLon,
                 currentBearing = currentBearing,
                 currentAltitudeMetres = currentAltitudeMetres,
-                outsideTempCelsius = outsideTempCelsius
+                outsideTempCelsius = outsideTempCelsius,
+                backgroundFlights = backgroundFlights,
+                onFlightTapped = onFlightTapped
             )
         } else {
             Text("WorldWind Map Preview", color = Color.White)

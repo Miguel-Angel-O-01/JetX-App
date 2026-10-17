@@ -116,7 +116,9 @@ class StlRenderer(context: Context, resId: Int) {
 
         val triList = ArrayList<TransformedTri>(triangleCount)
         val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            style = Paint.Style.FILL
+            style = Paint.Style.FILL_AND_STROKE
+            strokeWidth = 0.8f // Elimina los artefactos de costuras/malla (efecto alambre)
+            strokeJoin = Paint.Join.ROUND
         }
 
         for (i in 0 until triangleCount) {

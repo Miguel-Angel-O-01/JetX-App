@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "JetX"
+rootProject.name = "JetX-App"
 include(":app")
